@@ -1,0 +1,23 @@
+body {
+    background-color: rgb(10, 35, 54);
+}
+
+.container {
+    background-color: white;
+    padding-top: 15px;
+    margin: auto;
+    height: 400px;
+    width: 400px;
+}
+#start {
+    margin: auto;
+    height: 35px;
+    width: 150px;
+    position: relative;
+    margin: auto;
+    background-color: lightblue;
+}
+
+h1 {
+    text-align: center;
+}

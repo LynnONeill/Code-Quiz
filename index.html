@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <title>Code Quiz</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Coding Quiz</h1>
+        <button id="start">Start Quiz!</button>
+        <div id="quiz">
+            <div id="question">test area</div>
+            <div id="qImg"></div>
+            <div class="buttons" id="answerChoices">
+                <form>
+                    <input type="radio" class="choices" id="choiceA_radio" name="button" value="A">
+                    <label for="choiceA" id="choiceA">A</label>
+                    <br><br>
+                    <input type="radio" class="choices" id="choiceB_radio" name="button" value="B">
+                    <label for="choiceB" id="choiceB">B</label>
+                    <br><br>
+                    <input type="radio" class="choices" id="choiceC_radio" name="button" value="C">
+                    <label for="choiceC" id="choiceC">C</label>
+                    <br><br>
+                    <input type="radio" class="choices" id="choiceD_radio" name="button" value="D">
+                    <label for="choiceD" id="choiceD">D</label>
+                    <br><br>
+                    <input type="button" id="submit" name="submitButton" value="submit">
+                    <input type="button" id="next" name="nextButton" value="next">
+                </form>
+            </div>
+        </div>
+        <div id="timer"></div>
+        <div id="secondsCounter"></div>
+        <div id="timeGuageBkGr"></div>
+        <div id="timeGuage"></div>
+        <div id="progress"></div>
+        <div id="score" style="display: none"></div>
+    </div>
+
+    <script src="questions.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>
+
+<div class="choice" id="A" onclick="checkAnswer('A')">A</div>
+<div class="choice" id="B" onclick="checkAnswer('B')">B</div>
+<div class="choice" id="C" onclick="checkAnswer('C')">C</div>
+<div class="choice" id="D" onclick="checkAnswer('D')"></div>

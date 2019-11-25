@@ -1,11 +1,11 @@
 let startBtnEl = document.getElementById("start");
-let quizEl = document.getElementById("quiz");
 let questionEl = document.getElementById("question");
-let qImtEl = document.getElementById("qImg");
-let secondsCounterEl = document.getElementById("secondsCounter");
-let timeGuageEl = document.getElementById("timeGuage");
-let progressEl = document.getElementById("progress");
+let timerTextEl = document.getElementById("timerText");
+let secondsDisplay = document.getElementById("secondsCounter");
+let minutesDisplay = document.getElementById("minutesCounter");
+let timerInterval;
 let scoreEl = document.getElementById("score");
+let result = document.getElementById("result");
 let a0 = document.getElementById("choiceA");
 let a1 = document.getElementById("choiceB");
 let a2 = document.getElementById("choiceC");
@@ -19,100 +19,143 @@ let radioD = document.getElementById("choiceD_radio");
 let lastQuestion = question.length - 1;
 let currentQuestion = 0;
 let currentScore = 0;
-let secondsLeft = 45;
-let correctAnswer =""
+let secondsLeft = 15;
+let minutesLeft = 0;
+let correctAnswer = "";
 
 
 localStorage.setItem("questions", JSON.stringify(questions));
+let newQuestions = JSON.parse(localStorage.getItem("questions"));
 
-
-function displayQuestions(q){
-    let newQuestions = JSON.parse(localStorage.getItem("questions"));
-
-    questionEl.textContent = newQuestions[q]["title"];
-    correctAnswer = newQuestions[q]["answer"];
-    
-    //labels
-    a0.textContent = newQuestions[q]["choices"][0]; 
-    a1.textContent = newQuestions[q]["choices"][1];
-    a2.textContent = newQuestions[q]["choices"][2];
-    a3.textContent = newQuestions[q]["choices"][3];
-   
-    radioA.value = newQuestions[q]["choices"][0];
-    radioB.value = newQuestions[q]["choices"][1];
-    radioC.value = newQuestions[q]["choices"][2];
-    radioD.value = newQuestions[q]["choices"][3];
+function displayQuestions(q) {
+    if (newQuestions.length > q) {
+        questionEl.textContent = newQuestions[q]["title"];
+        correctAnswer = newQuestions[q]["answer"];
+        //set text content of button labels //
+        a0.textContent = newQuestions[q]["choices"][0];
+        a1.textContent = newQuestions[q]["choices"][1];
+        a2.textContent = newQuestions[q]["choices"][2];
+        a3.textContent = newQuestions[q]["choices"][3];
+        // set value of buttons //
+        radioA.value = newQuestions[q]["choices"][0];
+        radioB.value = newQuestions[q]["choices"][1];
+        radioC.value = newQuestions[q]["choices"][2];
+        radioD.value = newQuestions[q]["choices"][3];
+        // reset unchecked value of all buttons when questions are loaded //
+        radioA.checked = false;
+        radioB.checked = false;
+        radioC.checked = false;
+        radioD.checked = false;
+    } else {
+        endQuiz();
+    }
 }
 
 displayQuestions(0);
 
 
-
 function submit() {
-    // check to make sure that an answer was selected
+    // check to make sure that any answer was selected //
     let allButtons = document.getElementsByClassName("choices");
     for (let i = 0; i < allButtons.length; i++) {
         if (allButtons[i].checked) {
-            // what it value
+            //check to see if answer selected matches correct answer (increase score, and alert correct)//
             if (allButtons[i].value == correctAnswer) {
-                alert("Correct!");
+                result.textContent = "Correct!"
+                currentScore++;
             } else {
-                alert("Incorrect!");
+                // if answer is incorrect deduct 5 seconds from clock and alert incorrect //
+                if (secondsLeft > 5) { }
+                secondsLeft -= 5;
+                result.textContent = "Wrong! You just lost 5 seconds!"
+                result.style.color = "red";
             }
         }
     }
-
-    
-    //check to see if answer selected matches correct answer
-    // if correct currentScore++
-    // alert that the answer is correct
-    // if incorrect deduct 5 seconds from timer
-    // if incorrect alert that the answer was incorrect
 }
 
+startBtnEl.addEventListener("click", function () {
+    startBtnEl.style.display = "none";
+    document.getElementById("quiz").style.display = "block";
+    document.getElementById("timerText").style.display = "block";
+    setTimer();
+    displayQuestions(0);
+});
 
+document.getElementById("submit").addEventListener("click", function () {
+    submit();
+    currentQuestion++;
+    displayQuestions(currentQuestion);
+});
+document.getElementById("saveScore").addEventListener("click", function () {
+    saveScore();
+    alert("Thank you for playing!  Your score has been saved!")
+})
+
+
+// Code below is for the timer and timer display //
 
 function setTimer() {
-    let timerInverval = setInterval(function() {
-        secondsLeft--;
-        timeGuage.textContent = secondsLeft +" seconds remaing to complete quiz." ;
-
-        if (secondsLeft <= -1) {
-            // clearInterval(timerInterval);
-            timeGuage.textContent = "";
-            sendMessage();
-        }
+    secondsLeft++;
+    timerInterval = setInterval(function () {
+        formatTime();
     }, 1000);
 }
 
-startBtnEl.addEventListener("click", function() {
-    startBtnEl.style.display = "none";
-    setTimer();
-    displayQuestions();
-})
+function formatTime() {
+    if (secondsLeft <= 0) {
+        if (minutesLeft > 0) {
+            minutesLeft--;
+        }
+        secondsLeft = 59;
+    } else {
+        secondsLeft--;
+    }
 
-document.getElementById("submit").addEventListener("click", function() {
-    submit();
-})
-document.getElementById("next").addEventListener("click", function() {
-    currentQuestion++;
-    displayQuestions(currentQuestion);
-})
-// Create function to keep track of score. //
+    if (secondsLeft < 10) {
+        secondsDisplay.textContent = "0" + secondsLeft;
+    } else {
+        secondsDisplay.textContent = secondsLeft;
+    }
 
-function updateScore () {
-    scoreEl.innerHTML = currentScore;
+    if (minutesLeft < 10) {
+        minutesDisplay.textContent = "0" + minutesLeft;
+    } else {
+        minutesDisplay.textContent = minutesLeft;
+    }
+
+    if (minutesLeft == 0 && secondsLeft == 0) {
+        stopTimer();
+        endQuiz();
+    }
+}
+function stopTimer() {
+    clearInterval(timerInterval);
+    minutesLeft = 0;
+    secondsLeft = 0;
+    minutesDisplay.textContent = "00";
+    secondsDisplay.textContent = "00";
 }
 
-// Create function to start a timer for the quiz. //
+function endQuiz() {
+    document.getElementById("initials").style.display = "block";
+    document.getElementById("endQuiz").style.display = "block";
+    document.getElementById("quiz").style.display = "none";
+    clearInterval(timerInterval);
+    result.textContent = "Game Over!";
+    document.getElementById("score").textContent = "Your score is " + currentScore + "/" + newQuestions.length;
+}
 
-
-
-function sendMessage() {
-    timeGuage.textContent = " ";
+function saveScore() {
+    let initials = document.getElementById("initials").value;
+    localStorage.setItem("user", initials);
+    localStorage.setItem("score", currentScore);
 }
 
 
+// if (newQuestions.length > 0 && minutesLeft == 0 && secondsLeft == 0) {
+    // timerTextEl.value = "Time's Up!";
+// }
 
 
 

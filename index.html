@@ -12,10 +12,15 @@
 <body>
     <div class="container">
         <h1>Coding Quiz</h1>
+        <div id="endQuiz" style="display: none">
+            <div id="score"></div>
+            <input type="text" id="initials" placeholder="enter initials" />
+            <input type="button" id="saveScore" value="Save Your Score" />
+            <!-- <input type="button" id="tryAgain" name="startAgain" value="Try Again"> -->
+        </div>
         <button id="start">Start Quiz!</button>
         <div id="quiz">
-            <div id="question">test area</div>
-            <div id="qImg"></div>
+            <div id="question"></div>
             <div class="buttons" id="answerChoices">
                 <form>
                     <input type="radio" class="choices" id="choiceA_radio" name="button" value="A">
@@ -31,16 +36,16 @@
                     <label for="choiceD" id="choiceD">D</label>
                     <br><br>
                     <input type="button" id="submit" name="submitButton" value="submit">
-                    <input type="button" id="next" name="nextButton" value="next">
                 </form>
             </div>
         </div>
-        <div id="timer"></div>
-        <div id="secondsCounter"></div>
-        <div id="timeGuageBkGr"></div>
-        <div id="timeGuage"></div>
-        <div id="progress"></div>
-        <div id="score" style="display: none"></div>
+        <div id="timer">
+            <div id="result"></div>
+            <div id="timerText">Remaining Time:</div>
+            <div id="minutesCounter"></div>
+            <div id="secondsCounter"></div>
+        </div>
+        <!-- <div id="timeGuage"></div> -->
     </div>
 
     <script src="questions.js"></script>
@@ -50,7 +55,7 @@
 
 </html>
 
-<div class="choice" id="A" onclick="checkAnswer('A')">A</div>
-<div class="choice" id="B" onclick="checkAnswer('B')">B</div>
-<div class="choice" id="C" onclick="checkAnswer('C')">C</div>
+<div class="choice" id="A" onclick="checkAnswer('A')"></div>
+<div class="choice" id="B" onclick="checkAnswer('B')"></div>
+<div class="choice" id="C" onclick="checkAnswer('C')"></div>
 <div class="choice" id="D" onclick="checkAnswer('D')"></div>

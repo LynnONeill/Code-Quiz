@@ -15,9 +15,9 @@ let questions = [
         answer: "<script>"
     },
     {
-        title: "What is the correct JavaScript syntax to change the content of the HTML element below?<p id='demo'>This is a demonstration.</p>",
+        title: "What is the correct JavaScript syntax to change the content of the HTML element below? <p id='demo'>This is a demonstration.</p>",
         choices: ["document.getElement('p').innerHTML = 'Hello World!'", "#demo.innerHTML = 'Hello World!'", "document.getElementById('demo').innerHTML = 'Hello World!'", "document.getElementByName('p').innerHTML = 'Hello  World!'"],
-        answer: "document.getElementById('demo').innerHTML = 'Hello World'"
+        answer: "document.getElementById('demo').innerHTML = 'Hello World!'"
     },
 
 ]

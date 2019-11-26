@@ -93,3 +93,12 @@ h1 {
     font-size: 20px;
     margin-bottom: 15px;
 }
+
+@media screen and (max-width: 600px) {
+    #container {
+        width: 300px;
+    }
+    #endQuiz {
+        width: 150px;
+    }
+}

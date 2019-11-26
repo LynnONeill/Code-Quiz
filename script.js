@@ -20,7 +20,7 @@ let lastQuestion = question.length - 1;
 let currentQuestion = 0;
 let currentScore = 0;
 let secondsLeft = 15;
-let minutesLeft = 0;
+let minutesLeft = 1;
 let correctAnswer = "";
 
 
@@ -104,7 +104,8 @@ function setTimer() {
 
 function formatTime() {
     if (secondsLeft <= 0) {
-        if (minutesLeft > 0) {
+
+        if (minutesLeft >= 0) {
             minutesLeft--;
         }
         secondsLeft = 59;
